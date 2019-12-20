@@ -234,11 +234,6 @@ int SelectedPointsPublisher::_processSelectedAreaAndFindPoints()
     selected_points_ros.fields[2].datatype = sensor_msgs::PointField::FLOAT32;
     selected_points_ros.fields[2].count = 1;
 
-    selected_points_ros.fields[3].name = "intensity";
-    selected_points_ros.fields[3].offset = 12;
-    selected_points_ros.fields[3].datatype = sensor_msgs::PointField::FLOAT32;
-    selected_points_ros.fields[3].count = 1;
-
     int i=0;
     while (model->hasIndex(i, 0))
     {
@@ -257,25 +252,6 @@ int SelectedPointsPublisher::_processSelectedAreaAndFindPoints()
       *(float*)ptr = vec.y;
       ptr += 4;
       *(float*)ptr = vec.z;
-      ptr += 4;
-
-      // seach for the right child for intensity value
-    //   for (int j = 1; j < child->numChildren(); j++)
-    //   {
-    //     rviz::Property* grandchild = child->childAt( j );
-    //     QString nameOfChild = grandchild->getName();
-    //     QString nameOfIntensity("intensity");
-
-    //     if (nameOfChild.contains(nameOfIntensity))
-    //     {
-    //     //   rviz::FloatProperty* floatchild = (rviz::FloatProperty*) grandchild;
-    //       float intensity = grandchild->getValue().toFloat();
-    //     //   float intensity = floatchild->getValue().toFloat();
-    //       *(float*)ptr = intensity;
-    //       break;
-    //     }
-    //   }
-
       ptr += 4;
       i++;
     }
