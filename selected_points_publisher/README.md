@@ -40,6 +40,10 @@ Add this plugin as a new tool.
 
 ![finish](docs/figures/finish.png)
 
+## topic
+
+you can get `/rviz_selected_points`.
+
 # original documentation
 
 ################################ DOCUMENTATION #################################
