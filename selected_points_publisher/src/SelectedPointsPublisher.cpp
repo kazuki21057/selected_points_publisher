@@ -259,24 +259,12 @@ int SelectedPointsPublisher::_processSelectedAreaAndFindPoints()
       *(float*)ptr = vec.z;
       ptr += 4;
 
-      // seach for the right child for intensity value
-    //   for (int j = 1; j < child->numChildren(); j++)
-    //   {
-    //     rviz::Property* grandchild = child->childAt( j );
-    //     QString nameOfChild = grandchild->getName();
-    //     QString nameOfIntensity("intensity");
-
-    //     if (nameOfChild.contains(nameOfIntensity))
-    //     {
-    //     //   rviz::FloatProperty* floatchild = (rviz::FloatProperty*) grandchild;
-    //       float intensity = grandchild->getValue().toFloat();
-    //     //   float intensity = floatchild->getValue().toFloat();
-    //       *(float*)ptr = intensity;
-    //       break;
-    //     }
-    //   }
-
+      /* get intensity */
+      rviz::Property* grandchild = (rviz::Property*) child->childAt( 1 );
+      QVariant intensity = grandchild->getValue();
+      *(float*)ptr = intensity.toFloat();
       ptr += 4;
+
       i++;
     }
 
