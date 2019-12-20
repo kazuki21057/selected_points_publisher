@@ -239,6 +239,11 @@ int SelectedPointsPublisher::_processSelectedAreaAndFindPoints()
     selected_points_ros.fields[3].datatype = sensor_msgs::PointField::FLOAT32;
     selected_points_ros.fields[3].count = 1;
 
+    selected_points_ros.fields[3].name = "ring";
+    selected_points_ros.fields[3].offset = 16;
+    selected_points_ros.fields[3].datatype = sensor_msgs::PointField::FLOAT32;
+    selected_points_ros.fields[3].count = 1;
+
     int i=0;
     while (model->hasIndex(i, 0))
     {
@@ -260,9 +265,15 @@ int SelectedPointsPublisher::_processSelectedAreaAndFindPoints()
       ptr += 4;
 
       /* get intensity */
-      rviz::Property* grandchild = (rviz::Property*) child->childAt( 1 );
-      QVariant intensity = grandchild->getValue();
+      rviz::Property* intensityChild = (rviz::Property*) child->childAt( 1 );
+      QVariant intensity = intensityChild->getValue();
       *(float*)ptr = intensity.toFloat();
+      ptr += 4;
+
+      /* get ring */
+      rviz::Property* ringChild = (rviz::Property*) child->childAt( 2 );
+      QVariant ring = ringChild->getValue();
+      *(float*)ptr = ring.toFloat();
       ptr += 4;
 
       i++;
