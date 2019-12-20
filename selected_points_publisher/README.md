@@ -1,3 +1,34 @@
+# Overview
+
+You can publish point cloud which are selected in rviz.  
+This package is forked by [turbo-ros-pkg](https://github.com/tu-rbo/turbo-ros-pkg/tree/master/selected_points_publisher). 
+
+# installation
+
+```
+$ cd ${your-catkin-workspace-root}/src
+$ git clone https://github.com/kazuki21057/selected_points_publisher.git
+$ catkin_make # or $ catkin build
+```
+
+# how to use
+
+Add this plugin as a new tool.  
+
+1. launch a rviz and click "+" button.
+
+![add](docs/figures/add.png)
+
+2. select "SelectedPointsPublisher"
+
+![select](docs/figures/select.png)
+
+3. click "SelectedPointsPublisher" and select a field
+
+![finish](docs/figures/finish.png)
+
+# original documentation
+
 ################################ DOCUMENTATION #################################
 
 Fork of the rviz::SelectionTool:

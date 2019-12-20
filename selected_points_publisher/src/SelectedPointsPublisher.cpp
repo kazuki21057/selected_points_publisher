@@ -25,13 +25,15 @@
 #include <pcl/filters/passthrough.h>
 #include <pcl/common/common.h>
 
-#include <pcl/filters/impl/box_clipper3D.hpp>
+// #include <pcl/filters/impl/box_clipper3D.hpp>
 
 
 #include <visualization_msgs/Marker.h>
 
 #include <pcl/filters/crop_box.h>
 #include <pcl/common/angles.h>
+
+#define MODIFIED
 
 namespace rviz_plugin_selected_points_publisher
 {
@@ -203,6 +205,88 @@ int SelectedPointsPublisher::processMouseEvent( rviz::ViewportMouseEvent& event 
 
 int SelectedPointsPublisher::_processSelectedAreaAndFindPoints()
 {
+#ifdef MODIFIED
+    rviz::SelectionManager* sel_manager = context_->getSelectionManager();
+    rviz::M_Picked selection = sel_manager->getSelection();
+    rviz::PropertyTreeModel *model = sel_manager->getPropertyModel();
+
+    // Generate a ros point cloud message with the selected points in rviz
+    sensor_msgs::PointCloud2 selected_points_ros;
+    selected_points_ros.header.frame_id = context_->getFixedFrame().toStdString();
+    selected_points_ros.height = 1;
+    selected_points_ros.point_step = 4 * 4;
+    selected_points_ros.is_dense = false;
+    selected_points_ros.is_bigendian = false;
+    selected_points_ros.fields.resize( 4 );
+
+    selected_points_ros.fields[0].name = "x";
+    selected_points_ros.fields[0].offset = 0;
+    selected_points_ros.fields[0].datatype = sensor_msgs::PointField::FLOAT32;
+    selected_points_ros.fields[0].count = 1;
+
+    selected_points_ros.fields[1].name = "y";
+    selected_points_ros.fields[1].offset = 4;
+    selected_points_ros.fields[1].datatype = sensor_msgs::PointField::FLOAT32;
+    selected_points_ros.fields[1].count = 1;
+
+    selected_points_ros.fields[2].name = "z";
+    selected_points_ros.fields[2].offset = 8;
+    selected_points_ros.fields[2].datatype = sensor_msgs::PointField::FLOAT32;
+    selected_points_ros.fields[2].count = 1;
+
+    selected_points_ros.fields[3].name = "intensity";
+    selected_points_ros.fields[3].offset = 12;
+    selected_points_ros.fields[3].datatype = sensor_msgs::PointField::FLOAT32;
+    selected_points_ros.fields[3].count = 1;
+
+    int i=0;
+    while (model->hasIndex(i, 0))
+    {
+      selected_points_ros.row_step = (i+1) * selected_points_ros.point_step;
+      selected_points_ros.data.resize( selected_points_ros.row_step );
+
+      QModelIndex child_index = model->index( i, 0 );
+
+      rviz::Property* child = model->getProp( child_index );
+      rviz::VectorProperty* subchild = (rviz::VectorProperty*) child->childAt( 0 );
+      Ogre::Vector3 vec = subchild->getVector();
+
+      uint8_t* ptr = &selected_points_ros.data[0] + i * selected_points_ros.point_step;
+      *(float*)ptr = vec.x;
+      ptr += 4;
+      *(float*)ptr = vec.y;
+      ptr += 4;
+      *(float*)ptr = vec.z;
+      ptr += 4;
+
+      // seach for the right child for intensity value
+    //   for (int j = 1; j < child->numChildren(); j++)
+    //   {
+    //     rviz::Property* grandchild = child->childAt( j );
+    //     QString nameOfChild = grandchild->getName();
+    //     QString nameOfIntensity("intensity");
+
+    //     if (nameOfChild.contains(nameOfIntensity))
+    //     {
+    //     //   rviz::FloatProperty* floatchild = (rviz::FloatProperty*) grandchild;
+    //       float intensity = grandchild->getValue().toFloat();
+    //     //   float intensity = floatchild->getValue().toFloat();
+    //       *(float*)ptr = intensity;
+    //       break;
+    //     }
+    //   }
+
+      ptr += 4;
+      i++;
+    }
+
+    ROS_INFO_STREAM_NAMED( "SelectedPointsPublisher._processSelectedAreaAndFindPoints", "Number of points in the selected area: " << i);
+
+    selected_points_ros.width = i;
+    selected_points_ros.header.stamp = ros::Time::now();
+    rviz_selected_pub_.publish( selected_points_ros );
+
+#else
     rviz::SelectionManager* sel_manager = context_->getSelectionManager();
     rviz::M_Picked selection = sel_manager->getSelection();
     rviz::PropertyTreeModel *model = sel_manager->getPropertyModel();
@@ -254,7 +338,7 @@ int SelectedPointsPublisher::_processSelectedAreaAndFindPoints()
     }
     selected_points_ros.header.stamp = ros::Time::now();
     rviz_selected_pub_.publish( selected_points_ros );
-
+#endif
     // Convert the ros point cloud message with the selected points into a pcl point cloud
     pcl::PointCloud<pcl::PointXYZ>::Ptr selected_points_pcl(new pcl::PointCloud<pcl::PointXYZ>());
     pcl::fromROSMsg(selected_points_ros, *selected_points_pcl);
@@ -362,7 +446,7 @@ int SelectedPointsPublisher::_processSelectedAreaAndFindPoints()
 int SelectedPointsPublisher::_publishAccumulatedPoints()
 {
     ROS_INFO_STREAM_NAMED("SelectedPointsPublisher._processSelectedAreaAndFindPoints",
-                          "Publishing the accumulated point cloud (" << this->num_acc_points_ < " points)");
+                          "Publishing the accumulated point cloud (" << this->num_acc_points_ << " points)");
     accumulated_segment_pc_->header = this->current_pc_->header;
     sensor_msgs::PointCloud2 accumulated_segment_ros;
     pcl::toROSMsg(*this->accumulated_segment_pc_, accumulated_segment_ros);
