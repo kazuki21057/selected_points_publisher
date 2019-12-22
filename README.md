@@ -17,12 +17,12 @@ $ catkin_make # or $ catkin build
 
 You can use the following 3 branchs:
 
-1. `onlyposition`: contain only position information (x, y, z) [**recommend**]
+1. `master`: contain only position information (x, y, z) [**recommend**]
 1. `withIntensity`: contain position and intensity information (x, y, z, intensity)
 1. `withIntensityRing`: contain posiion, intensity and ring information (x, y, z, intensity, ring)
 
 If you know a data type of point cloud, you can use `withIntensity` and `withIntensityRing` branchs.  
-But, If not, I recommend you to use `onlyposition` branch to avoid segmentation fault.
+But, If not, I recommend you to use `master` branch to avoid segmentation fault.
 
 ## procedure
 
