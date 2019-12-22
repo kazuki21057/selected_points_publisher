@@ -13,6 +13,19 @@ $ catkin_make # or $ catkin build
 
 # how to use
 
+## branch
+
+You can use the following 3 branchs:
+
+1. `onlyposition`: contain only position information (x, y, z) [**recommend**]
+1. `withIntensity`: contain position and intensity information (x, y, z, intensity)
+1. `withIntensityRing`: contain posiion, intensity and ring information (x, y, z, intensity, ring)
+
+If you know a data type of point cloud, you can use `withIntensity` and `withIntensityRing` branchs.  
+But, If not, I recommend you to use `onlyposition` branch to avoid segmentation fault.
+
+## procedure
+
 Add this plugin as a new tool.  
 
 1. launch a rviz and click "+" button.
@@ -26,6 +39,10 @@ Add this plugin as a new tool.
 3. click "SelectedPointsPublisher" and select a field
 
 ![finish](docs/figures/finish.png)
+
+## topic
+
+you can get `/rviz_selected_points`.
 
 # original documentation
 

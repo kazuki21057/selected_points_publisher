@@ -4,6 +4,9 @@
 ## First start with some standard catkin stuff.
 cmake_minimum_required(VERSION 2.8.3)
 project(selected_points_publisher)
+
+add_compile_options(-std=c++11)
+
 find_package(catkin REQUIRED COMPONENTS rviz)
 catkin_package()
 find_package(PCL REQUIRED)
