@@ -1,0 +1,40 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/home/frl/moveit_ws/devel/include",
+                "/opt/ros/kinetic/include",
+                "/home/frl/moveit_ws/src/convenience-pkgs/arm_components_name_manager/include",
+                "/home/frl/moveit_ws/src/convenience-pkgs/baselib_binding/include",
+                "/home/frl/moveit_ws/src/convenience-pkgs/convenience_math_functions/include",
+                "/home/frl/moveit_ws/src/convenience-pkgs/convenience_ros_functions/include",
+                "/home/frl/moveit_ws/src/joint-control-pkgs/gazebo_joint_control/include",
+                "/home/frl/moveit_ws/src/geometric_calculation_helper/include",
+                "/home/frl/moveit_ws/src/graspit-pkgs/grasp_planning_graspit/include",
+                "/home/frl/moveit_ws/src/graspit-pkgs/grasp_planning_graspit_ros/include",
+                "/home/frl/moveit_ws/src/jaco-arm-pkgs/jaco_arm/jaco_joints/include",
+                "/home/frl/moveit_ws/src/joint-control-pkgs/joint_trajectory_execution/include",
+                "/home/frl/moveit_ws/src/convenience-pkgs/logger_binding/include",
+                "/home/frl/moveit_ws/src/mirror_reflection/include",
+                "/home/frl/moveit_ws/src/practice_moveit/include",
+                "/home/frl/moveit_ws/src/selected_points_publisher/include",
+                "/home/frl/moveit_ws/src/graspit-pkgs/urdf2graspit/include",
+                "/home/frl/moveit_ws/src/urdf-tools-pkgs/urdf2inventor/include",
+                "/home/frl/moveit_ws/src/urdf-tools-pkgs/urdf_transform/include",
+                "/home/frl/moveit_ws/src/urdf-tools-pkgs/urdf_traverser/include",
+                "/home/frl/moveit_ws/src/urdf-tools-pkgs/urdf_viewer/include",
+                "/usr/include"
+            ],
+            "name": "Linux",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}
